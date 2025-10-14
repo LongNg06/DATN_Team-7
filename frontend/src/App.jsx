@@ -1,5 +1,12 @@
-export default function App() {
+import React from 'react';
+import HomePage from './pages/HomePage';
+
+function App() {
   return (
-    <h1>Xin chào React 18.2.0</h1>
-  )
+    <>
+      <HomePage />
+    </>
+  );
 }
+
+export default App;
