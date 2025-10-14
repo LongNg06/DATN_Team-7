@@ -18,7 +18,7 @@ export const getUserById = (req, res) => {
   });
 };
 
-// Thêm user
+//  Thêm user
 export const createUser = (req, res) => {
   const { ten, email, mat_khau, dien_thoai, dia_chi, vai_tro, trang_thai, anh } = req.body;
 
@@ -32,7 +32,7 @@ export const createUser = (req, res) => {
   });
 };
 
-// Sửa user
+//  Sửa user
 export const updateUser = (req, res) => {
   const { id } = req.params;
   const { ten, email, mat_khau, dien_thoai, dia_chi, vai_tro, trang_thai, anh } = req.body;
@@ -42,13 +42,13 @@ export const updateUser = (req, res) => {
     SET ten=?, email=?, mat_khau=?, dien_thoai=?, dia_chi=?, vai_tro=?, trang_thai=?, anh=?
     WHERE id=?
   `;
-  db.query(sql, [ten, email, mat_khau, dien_thoai, dia_chi, vai_tro, trang_thai, anh, id], (err, result) => {
+  db.query(sql, [ten, email, mat_khau, dien_thoai, dia_chi, vai_tro, trang_thai, anh, id], (err) => {
     if (err) return res.status(500).json({ error: err.message });
     res.json({ message: "Cập nhật user thành công" });
   });
 };
 
-// Xóa user
+//  Xóa user
 export const deleteUser = (req, res) => {
   const { id } = req.params;
   db.query("DELETE FROM tai_khoan WHERE id = ?", [id], (err) => {
