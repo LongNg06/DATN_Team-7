@@ -20,6 +20,11 @@ export const getUserById = (req, res) => {
 
 //  Thêm user
 export const createUser = (req, res) => {
+  // Kiểm tra req.body có tồn tại không
+  if (!req.body) {
+    return res.status(400).json({ error: "Thiếu dữ liệu trong request body" });
+  }
+  
   const { ten, email, mat_khau, dien_thoai, dia_chi, vai_tro, trang_thai, anh } = req.body;
 
   const sql = `
@@ -35,6 +40,12 @@ export const createUser = (req, res) => {
 //  Sửa user
 export const updateUser = (req, res) => {
   const { id } = req.params;
+  
+  // Kiểm tra req.body có tồn tại không
+  if (!req.body) {
+    return res.status(400).json({ error: "Thiếu dữ liệu trong request body" });
+  }
+  
   const { ten, email, mat_khau, dien_thoai, dia_chi, vai_tro, trang_thai, anh } = req.body;
 
   const sql = `
