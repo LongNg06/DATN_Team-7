@@ -1,63 +1,75 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import "../../style/productdetail.css";
 import { Link } from "react-router-dom";
-import "../../style/productdetail.css"
-const ProductPage = ({ ASSET_PATH = "/assets" }) => {
+
+function ProductDetail({ ASSET_PATH = "/assets" }) {
+  const [products, setProducts] = useState([]);     // nơi lưu dữ liệu
+  const [loading, setLoading] = useState(true);     // trạng thái tải
+  const [error, setError] = useState(null);         // bắt lỗi nếu có
+
+  useEffect(() => {
+    fetch("http://localhost:5000/api/products")
+      .then((res) => {
+        if (!res.ok) throw new Error("Lỗi server: " + res.status);
+        return res.json();
+      })
+      .then((data) => {
+        setProducts(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) return <p>Đang tải dữ liệu...</p>;
+  if (error) return <p>Lỗi: {error}</p>;
+
+  // Giả sử API trả về danh sách, ta hiển thị sản phẩm đầu tiên làm ví dụ
+  const product = products[0];
+
   return (
     <>
-      <header id="section-header" className="site-header">
-        <div className="container header-container">
-          <a href="#" className="logo">
-            <img src={`${ASSET_PATH}/1b26f06cfc31998bfb34742de83aaaf283f20b0a.png`} alt="Logo" />
-          </a>
-          <button className="header-btn">Danh mục</button>
-          <button className="header-btn">Hồ Chí Minh</button>
-          <div className="search-bar">
-            <input type="text" placeholder="Bạn muốn mua gì hôm nay ?" />
-          </div>
-          <a href="#" className="header-link">Giỏ hàng</a>
-          <a href="#" className="header-btn login-btn">Đăng nhập</a>
-        </div>
-
-        <nav className="breadcrumbs">
-          <div className="container breadcrumbs-container">
-            <a href="#">Trang chủ</a>
-            <span>/</span>
-            <a href="#">Sản phẩm</a>
-            <span>/</span>
-            <p>Chi tiết sản phẩm</p>
-          </div>
-        </nav>
-      </header>
+     
 
       <section id="section-product" className="product-section">
         <div className="container product-container">
+          {/* Ảnh sản phẩm */}
           <div className="product-gallery">
             <img
-              src={`${ASSET_PATH}/bf77cc37aa6a54dceda1d845771b1a6b53524624.png`}
-              alt="Laptop Acer Aspire E5-411"
+              src={product?.image || `${ASSET_PATH}/bf77cc37aa6a54dceda1d845771b1a6b53524624.png`}
+              alt={product?.sanpham || "Sản phẩm"}
             />
           </div>
 
+          {/* Thông tin sản phẩm */}
           <div className="product-details">
-            <h1 className="product-title">Laptop Acer Aspire E5-411</h1>
+            <h1 className="product-title">
+              {product?.sanpham || "Tên sản phẩm"}
+            </h1>
             <p className="product-rating">⭐ ⭐ ⭐ ⭐ ⭐ 6 đánh giá</p>
 
             <div className="product-options-grid">
               <button className="option-button active">
-                <span>256GB</span>
-                <span>39.000.000vnđ</span>
+                <span>{product?.dungluong || "256GB"}</span>
+                <span>{"39.000.000đ"}</span>
+                
               </button>
-              <button className="option-button">
-                <span>512GB</span>
-                <span>46.999.000</span>
+              <button className="option-button active">
+                <span>{product?.dungluong || "256GB"}</span>
+                <span>{"39.000.000đ"}</span>
+                
               </button>
-              <button className="option-button">
-                <span>256GB</span>
-                <span>39.000.000vnđ</span>
+              <button className="option-button active">
+                <span>{product?.dungluong || "512GB"}</span>
+                <span>{"46.900.000đ"}</span>
+                
               </button>
-              <button className="option-button">
-                <span>512GB</span>
-                <span>46.999.000</span>
+              <button className="option-button active">
+                <span>{product?.dungluong || "512GB"}</span>
+                <span>{"46.900.000đ"}</span>
+                
               </button>
             </div>
 
@@ -67,22 +79,22 @@ const ProductPage = ({ ASSET_PATH = "/assets" }) => {
                 <button className="color-swatch" key={index}>
                   <img
                     src={`${ASSET_PATH}/968845f0a14b8dd8f9c4504d810abc6294a87b3a.png`}
-                    alt={`${color} color option`}
+                 
                   />
                   <div className="color-info">
                     <span className="color-name">{color}</span>
-                    <span className="color-price">39.000.000đ</span>
+                    <span className="color-price">{product?.gia || "39.000.000đ"}</span>
                   </div>
                 </button>
               ))}
             </div>
 
             <div className="price-summary">
-              <span className="final-price">39.000.000đ</span>
+              <span className="final-price">{product?.gia || "39.000.000đ"}</span>
               <div className="divider"></div>
               <p className="installment-info">
                 Chỉ cần trả trước:<br />
-                <strong>11.999.7000đ</strong>
+                <strong>11.999.000đ</strong>
               </p>
             </div>
 
@@ -109,19 +121,21 @@ const ProductPage = ({ ASSET_PATH = "/assets" }) => {
                 <span>1</span>
                 <button>+</button>
               </div>
-              <button className="btn-add-to-cart">
-  <Link to="/cart" style={{ color: "white", textDecoration: "none" }}>
-    Thêm vào giỏ
-  </Link>
-</button>
+             <Link to="/cart" className="btn-add-to-cart">
+  Thêm vào giỏ
+</Link>
+
             </div>
           </div>
         </div>
       </section>
 
+      {/* Bình luận */}
       <section id="section-comments" className="comments-section">
         <div className="container">
-          <h2 className="comments-title">Bình luận về Laptop Acer Aspire E5-411</h2>
+          <h2 className="comments-title">
+            Bình luận về {product?.sanpham || "Sản phẩm"}
+          </h2>
           <div className="comments-wrapper">
             <div className="user-comments">
               <h3>Bình luận từ người dùng khác</h3>
@@ -149,23 +163,8 @@ const ProductPage = ({ ASSET_PATH = "/assets" }) => {
         </div>
       </section>
 
-      <footer id="section-footer" className="site-footer">
-        <div className="footer-main">
-          <div className="container footer-grid">
-            {/* Cột 1 */}
-            <div className="footer-col">
-              <h4 className="footer-title">Tổng đài hỗ trợ miễn phí</h4>
-              <p>Mua hàng - bảo hành <strong>1800.2097</strong> (7h30 - 22h00)</p>
-              <p>Khiếu nại <strong>1800.2063</strong> (8h00 - 21h30)</p>
-            </div>
-
-            {/* Cột khác có thể giữ nguyên cấu trúc */}
-            {/* ... */}
-          </div>
-        </div>
-      </footer>
     </>
   );
-};
+}
 
-export default ProductPage;
+export default ProductDetail;

@@ -234,7 +234,7 @@ img {
 
   .color-options {
     display: flex;
-    gap: 46px;
+    gap: 38px;
     flex-wrap: wrap;
   }
 
@@ -371,6 +371,8 @@ img {
     background-color: #f23534;
     color: var(--text-light);
     font-size: 18px;
+    text-align: center;
+    color:white;
     font-weight: 700;
     padding: 6.5px 0;
     border-radius: 5px;
@@ -502,8 +504,9 @@ img {
 
   .btn-submit-comment {
     height: 40px;
+    color:white;
     background-color: #f23534;
-    color: var(--text-light);
+ 
     font-size: 17px;
     border-radius: 3px;
   }
