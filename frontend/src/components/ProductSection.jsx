@@ -1,4 +1,6 @@
+// ProductSection.jsx
 import React from 'react';
+import '../styles/product.css'; // Thêm file CSS mới
 import ProductCard from './ProductCard';
 import sample from '../assets/sample-product.jpg';
 

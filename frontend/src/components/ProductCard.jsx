@@ -1,13 +1,16 @@
+// ProductCard.jsx
 import React from 'react';
-import '../styles/home.css';
+import '../styles/product.css';
 
-const ProductCard = ({ image, name, price }) => {
+const ProductCard = ({ name, price, image, buyButton }) => {
   return (
     <div className="product-card">
       <img src={image} alt={name} />
       <h3>{name}</h3>
-      <p>{price}₫</p>
-      <button>Xem chi tiết</button>
+      <p>{price}</p>
+      {buyButton ? (
+        <button>Mua hàng</button>
+      ) : null} {/* Không hiển thị nút nếu buyButton là false */}
     </div>
   );
 };
