@@ -1,0 +1,46 @@
+.banner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+.main-banner {
+  flex: 2;
+  margin-right: 20px;
+}
+
+.main-banner img {
+  width: 950px;
+  height: 381px;
+  object-fit: cover;
+}
+
+.side-banners {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.small-banner {
+  flex: 1;
+}
+
+.small-banner img {
+  width: 240px;
+  height: 187px;
+  object-fit: cover;
+}
+
+.top {
+  margin-bottom: 0;
+}
+
+.bottom {
+  margin-top: 0;
+}
